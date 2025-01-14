@@ -1,18 +1,26 @@
 const express = require('express');
 const cors = require('cors');
 const dotenv = require('dotenv');
+const path = require('path');
 const dbConnection = require('./database/dbConnection');
 const uploadRoutes = require('./routes/uploadRoutes');
+const searchRoutes = require('./routes/searchRoutes');
+const fileRoutes = require('./routes/fileRoutes');
 
 dotenv.config();
 
 const app = express();
 app.use(cors());
 app.use(express.json());
-app.use(express.static('uploads'));
+
+
+// Serve static files from the "uploads" directory
+app.use('/uploads', express.static(path.join(__dirname,'controllers', 'uploads')));
 
 //routes
 app.use('/api/upload', uploadRoutes);
+app.use('/api/search', searchRoutes);
+app.use('/api', fileRoutes);
 
 
 
